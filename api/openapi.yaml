@@ -1,0 +1,435 @@
+openapi: "3.0.0"
+info:
+  title: Go-book-review API
+  version: 0.0.1
+servers:
+  - url: http://{host}:{port}
+    description: 開発用
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '8000'
+paths:
+  "/api/_healthz":
+    get:
+      summary: "ヘルスチェック"
+      tags:
+        - common
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                type: string
+  "/signup":
+    post:
+      summary: "sign up"
+      tags:
+        - signup
+      requestBody:
+        $ref: '#/components/requestBodies/authentication'
+      responses:
+        "201":
+          description: "Created"
+      operationId: signup
+  "/login":
+    post:
+      summary: "login"
+      tags:
+        - login
+      requestBody:
+        $ref: '#/components/requestBodies/authentication'
+      responses:
+        "200":
+          $ref: '#/components/responses/login'
+      operationId: login
+  "/api/books":
+    get:
+      summary: "user_idから複数のbook_idを取得。それぞれのbook_idから本の情報を取得"
+      tags:
+        - book
+      parameters:
+        - $ref: '#/components/parameters/user-id'
+      responses:
+        "200":
+          $ref: '#/components/responses/books'
+      operationId: getBooks
+    post:
+      summary: "新たなbookを登録"
+      tags:
+        - book
+      requestBody:
+        $ref: '#/components/requestBodies/book'
+      responses:
+        "204":
+          description: 成功
+        "400":
+          description: 失敗
+      operationId: postBooks
+  "/api/books/{book_id}":
+    parameters:
+      - $ref: '#/components/parameters/book-id'
+    get:
+      summary: "book_idから本の情報を取得"
+      tags:
+        - book
+      responses:
+        "200":
+          $ref: '#/components/responses/book'
+      operationId: getBook
+    put:
+      summary: "already_readの変更を行う"
+      tags:
+        - book
+      parameters:
+        - $ref: '#/components/parameters/already-read'
+      responses:
+        "204":
+          description: 成功
+      operationId: putBook
+    delete:
+      summary: "book_idの本を削除"
+      tags:
+        - book
+      responses:
+        "204":
+          description: No Content
+      operationId: deleteBook
+  "/api/summaries":
+    get:
+      summary: "book_idのsummary_idのsummaryを全取得"
+      tags:
+        - summary
+      parameters:
+        - $ref: '#/components/parameters/book-id'
+      responses:
+        "200":
+          $ref: '#/components/responses/summaries'
+      operationId: getSummaries
+    post:
+      summary: "book_idのsummaryを登録"
+      tags:
+        - summary
+      requestBody:
+        $ref: '#/components/requestBodies/summary'
+      responses:
+        "204":
+          description: 成功
+        "400":
+          description: 失敗
+      operationId: postSummaries
+  "/api/summaries/{summary_id}":
+    parameters:
+      - $ref: '#/components/parameters/summary-id'
+    get:
+      summary: "summary_idのsummaryを取得"
+      tags:
+        - summary
+      responses:
+        "200":
+          $ref: '#/components/responses/summary'
+      operationId: getSummary
+    put:
+      summary: "summary_idのsummaryを修正"
+      tags:
+        - summary
+      requestBody:
+        $ref: '#/components/requestBodies/put-summary'
+      responses:
+        "204":
+          description: 成功
+      operationId: putSummary
+    delete:
+      summary: "summary_idのsummaryを削除"
+      tags:
+        - summary
+      responses:
+        "204":
+          description: No Content
+      operationId: deleteSummary
+  "/api/tags":
+    get:
+      summary: "user_idのタグを全取得"
+      tags:
+        - tag
+      parameters:
+        - $ref: '#/components/parameters/user-id'
+      responses:
+        "200":
+          $ref: '#/components/responses/tags'
+      operationId: getTags
+    post:
+      summary: "user_idのtagリストにtagを追加"
+      tags:
+        - tag
+      requestBody:
+        $ref: '#/components/requestBodies/tag'
+      responses:
+        "204":
+          description: 成功
+        "400":
+          description: 失敗
+      operationId: postTags
+  "/api/tags/{tag_id}":
+    parameters:
+      - $ref: '#/components/parameters/tag-id'
+    get:
+      summary: "user_id, tag_idのtagを取得"
+      tags:
+        - tag
+      responses:
+        "200":
+          $ref: '#/components/responses/tag'
+      operationId: getTag
+    put:
+      summary: "user_id, tag_idのtagを修正"
+      tags:
+        - tag
+      requestBody:
+        $ref: '#/components/requestBodies/put-tag'
+      responses:
+        "204":
+          description: 成功
+      operationId: putTag
+    delete:
+      summary: "user_id, tag_idのtagを修正"
+      tags:
+        - tag
+      responses:
+        "204":
+          description: No Content
+      operationId: deleteTag
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: cognito jwt token
+  parameters:
+    book-id:
+      in: path
+      name: book_id
+      schema:
+        type: string
+      required: true
+    summary-id:
+      in: path
+      name: summary_id
+      schema:
+        type: string
+      required: true
+    tag-id:
+      in: path
+      name: tag_id
+      schema:
+        type: string
+      required: true
+    user-id:
+      in: query
+      name: user_id
+      schema:
+        type: string
+      required: true
+    amazon-url:
+      in: query
+      name: amazon_url
+      schema:
+        type: string
+      required: true
+    already-read:
+      in: query
+      name: already_read
+      schema:
+        type: boolean
+      required: true
+    summary:
+      in: query
+      name: content
+      schema:
+        type: string
+      required: true
+    tag:
+      in: query
+      name: tag
+      schema:
+        type: string
+      required: true
+  schemas:
+    login:
+      type: object
+      properties:
+        token:
+          type: string
+          description: jwtのトークン
+    books:
+      type: array
+      items:
+        $ref: "#/components/schemas/book"
+      required:
+        - items
+    book:
+      type: object
+      properties:
+        book_id:
+          type: string
+          description: uuid
+        title:
+          type: string
+        image:
+          type: string
+          format: binary
+      required:
+        - book_id
+        - title
+    summaries:
+      type: array
+      items:
+        $ref: "#/components/schemas/summary"
+      required:
+        - items
+    summary:
+      type: object
+      properties:
+        sumamry_id:
+          type: string
+          description: uuid
+        summary:
+          type: string
+      required:
+        - summary_id
+        - summary
+    tags:
+      type: array
+      items:
+        $ref: "#/components/schemas/tag"
+      required:
+        - items
+    tag:
+      type: object
+      properties:
+        tag_id:
+          type: string
+          description: uuid
+        tag:
+          type: string
+      required:
+        - tag_id
+        - tag
+  requestBodies:
+    authentication:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                description: user_id
+              password:
+                type: string
+                description: password
+    book:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                description: user_id
+              amazon_url:
+                type: string
+                description: amazon_url
+    summary:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              book_id:
+                type: string
+                description: book_id
+              summary:
+                type: string
+                description: summary
+    put-summary:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              summary:
+                type: string
+                description: summary
+    tag:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                description: user_id
+              tag:
+                type: string
+                description: tag
+    put-tag:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              tag:
+                type: string
+                description: tag
+  responses:
+    login:
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/login'
+    books:
+      description: 成功
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/books'
+    book:
+      description: 成功
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/book'
+    summaries:
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/summaries'
+    summary:
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/summary'
+    tags:
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/tags'
+    tag:
+      description: 成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/tag'

@@ -103,7 +103,7 @@ paths:
       tags:
         - summary
       parameters:
-        - $ref: '#/components/parameters/book-id'
+        - $ref: '#/components/parameters/query-book-id'
       responses:
         "200":
           $ref: '#/components/responses/summaries'
@@ -223,6 +223,12 @@ components:
     tag-id:
       in: path
       name: tag_id
+      schema:
+        type: string
+      required: true
+    query-book-id:
+      in: query
+      name: book_id
       schema:
         type: string
       required: true

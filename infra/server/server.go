@@ -3,19 +3,24 @@ package server
 import (
 	"context"
 	"fmt"
-	"github.com/geeeeorge/Go-book-review/gen/api"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/spf13/viper"
+
+	"github.com/geeeeorge/Go-book-review/gen/api"
+
+	cognitoMiddleware "github.com/geeeeorge/Go-book-review/pkg/middleware"
 	"github.com/geeeeorge/Go-book-review/src/app/handler"
 	"github.com/geeeeorge/Go-book-review/src/app/repository"
 	"github.com/geeeeorge/Go-book-review/src/app/usecase"
 
 	"gorm.io/gorm"
 
-	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -41,12 +46,31 @@ func NewServer(port int, host string, db *gorm.DB, serverReady chan<- interface{
 
 func (s *Server) setupRoute() {
 	e := echo.New()
-	repository := repository.New(s.DB)
-	usecase := usecase.New(repository)
-	handler := handler.New(usecase)
+	r := repository.New(s.DB)
+	u := usecase.New(r)
+	h := handler.New(u)
 
-	api.RegisterHandlers(e, handler)
+	api.RegisterHandlers(e, h)
 	s.echo = e
+}
+
+func (s *Server) setupMiddleware() {
+	viper.SetEnvPrefix("AWS")
+	viper.AutomaticEnv()
+	s.echo.Use(
+		middleware.Recover(),
+		middleware.Logger(),
+		middleware.RequestID(),
+		middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowCredentials: true,
+		}),
+		cognitoMiddleware.CognitoMiddleware(
+			viper.GetString("REGION"),
+			viper.GetString("COGNITO_USER_POOL_ID"),
+			viper.GetString("COGNITO_USER_POOL_ISS"),
+			[]string{"/api/_healthz", "/signup", "/login"},
+		),
+	)
 }
 
 // GetAddress return server address
@@ -57,6 +81,7 @@ func (s *Server) GetAddress() string {
 // Start starts server
 func (s *Server) Start() {
 	s.setupRoute()
+	s.setupMiddleware()
 
 	go func() {
 		if err := s.echo.Start(s.GetAddress()); err != nil && err != http.ErrServerClosed {

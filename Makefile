@@ -6,4 +6,4 @@ gen-api:
 
 .PHONY: go-fix-lint
 go-fix-lint:
-	find . -print | grep --regex '.*\.go$$' | xargs goimports -w -local "github.com/nagaseitteam/it-lime-backend"
+	find . -print | grep --regex '.*\.go$$' | xargs goimports -w -local "github.com/geeeeorge/Go-book-review"

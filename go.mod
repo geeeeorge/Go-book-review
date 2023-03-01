@@ -7,6 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.44.211
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/golang-jwt/jwt/v4 v4.4.2
+	github.com/google/go-cmp v0.5.9
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.0

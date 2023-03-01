@@ -1,0 +1,13 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: cmd/api/Dockerfile
+    ports:
+      - "9000:9000"
+    tty: true
+    env_file:
+      - ./.env

@@ -27,7 +27,7 @@ paths:
     post:
       summary: "sign up"
       tags:
-        - signup
+        - session
       requestBody:
         $ref: '#/components/requestBodies/authentication'
       responses:
@@ -38,7 +38,7 @@ paths:
     post:
       summary: "login"
       tags:
-        - login
+        - session
       requestBody:
         $ref: '#/components/requestBodies/authentication'
       responses:
@@ -47,11 +47,9 @@ paths:
       operationId: login
   "/api/books":
     get:
-      summary: "user_idから複数のbook_idを取得。それぞれのbook_idから本の情報を取得"
+      summary: "usernameから複数のbook_idを取得。それぞれのbook_idから本の情報を取得"
       tags:
         - book
-      parameters:
-        - $ref: '#/components/parameters/user-id'
       responses:
         "200":
           $ref: '#/components/responses/books'
@@ -151,17 +149,15 @@ paths:
       operationId: deleteSummary
   "/api/tags":
     get:
-      summary: "user_idのタグを全取得"
+      summary: "usernameのタグを全取得"
       tags:
         - tag
-      parameters:
-        - $ref: '#/components/parameters/user-id'
       responses:
         "200":
           $ref: '#/components/responses/tags'
       operationId: getTags
     post:
-      summary: "user_idのtagリストにtagを追加"
+      summary: "usernameのtagリストにtagを追加"
       tags:
         - tag
       requestBody:
@@ -176,7 +172,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/tag-id'
     get:
-      summary: "user_id, tag_idのtagを取得"
+      summary: "username, tag_idのtagを取得"
       tags:
         - tag
       responses:
@@ -184,7 +180,7 @@ paths:
           $ref: '#/components/responses/tag'
       operationId: getTag
     put:
-      summary: "user_id, tag_idのtagを修正"
+      summary: "username, tag_idのtagを修正"
       tags:
         - tag
       requestBody:
@@ -194,7 +190,7 @@ paths:
           description: 成功
       operationId: putTag
     delete:
-      summary: "user_id, tag_idのtagを修正"
+      summary: "username, tag_idのtagを修正"
       tags:
         - tag
       responses:
@@ -232,9 +228,9 @@ components:
       schema:
         type: string
       required: true
-    user-id:
+    username:
       in: query
-      name: user_id
+      name: username
       schema:
         type: string
       required: true
@@ -331,9 +327,9 @@ components:
           schema:
             type: object
             properties:
-              user_id:
+              username:
                 type: string
-                description: user_id
+                description: username
               password:
                 type: string
                 description: password
@@ -344,9 +340,9 @@ components:
           schema:
             type: object
             properties:
-              user_id:
+              username:
                 type: string
-                description: user_id
+                description: username
               amazon_url:
                 type: string
                 description: amazon_url
@@ -380,9 +376,9 @@ components:
           schema:
             type: object
             properties:
-              user_id:
+              username:
                 type: string
-                description: user_id
+                description: username
               tag:
                 type: string
                 description: tag

@@ -8,7 +8,7 @@ import (
 
 type Interface interface {
 	GetApiHealthz(ctx echo.Context) error
-	GetBooks(ctx echo.Context, params api.GetBooksParams) error
+	GetBooks(ctx echo.Context) error
 	PostBooks(ctx echo.Context) error
 	DeleteBook(ctx echo.Context, bookId api.BookId) error
 	GetBook(ctx echo.Context, bookId api.BookId) error
@@ -18,7 +18,7 @@ type Interface interface {
 	DeleteSummary(ctx echo.Context, summaryId api.SummaryId) error
 	GetSummary(ctx echo.Context, summaryId api.SummaryId) error
 	PutSummary(ctx echo.Context, summaryId api.SummaryId) error
-	GetTags(ctx echo.Context, params api.GetTagsParams) error
+	GetTags(ctx echo.Context) error
 	PostTags(ctx echo.Context) error
 	DeleteTag(ctx echo.Context, tagId api.TagId) error
 	GetTag(ctx echo.Context, tagId api.TagId) error
@@ -32,7 +32,7 @@ func (c *Client) GetApiHealthz(ctx echo.Context) error {
 	panic("implement me")
 }
 
-func (c *Client) GetBooks(ctx echo.Context, params api.GetBooksParams) error {
+func (c *Client) GetBooks(ctx echo.Context) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -72,7 +72,7 @@ func (c *Client) PutSummary(ctx echo.Context, summaryId api.SummaryId) error {
 	panic("implement me")
 }
 
-func (c *Client) GetTags(ctx echo.Context, params api.GetTagsParams) error {
+func (c *Client) GetTags(ctx echo.Context) error {
 	//TODO implement me
 	panic("implement me")
 }

@@ -10,7 +10,7 @@ import (
 
 func main() {
 	conf := config.Load()
-	db, err := database.NewPostgresDB(conf.RDBConfig.ConnectionString())
+	db, err := database.NewMysqlDB(conf.RDBConfig.ConnectionString())
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

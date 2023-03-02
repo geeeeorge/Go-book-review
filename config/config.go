@@ -8,8 +8,6 @@ import (
 
 var conf *Config = nil
 
-type PostgresConnectionString string
-
 // Config represents config of this service
 type Config struct {
 	appPort   int
@@ -32,7 +30,6 @@ func Load() Config {
 		return *conf
 	}
 
-	viper.SetEnvPrefix("DIARY")
 	viper.AutomaticEnv()
 	c := Config{
 		appPort: viper.GetInt("APP_PORT"), // 実際の環境変数名はprefixがついた`DIARY_APP_PORT`になる
@@ -62,7 +59,7 @@ func (c *Config) AppHost() string {
 // ConnectionString return string for connecting database
 func (r *RDBConfig) ConnectionString() string {
 	return fmt.Sprintf(
-		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
+		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		r.user, r.password, r.host, r.port, r.database,
 	)
 }

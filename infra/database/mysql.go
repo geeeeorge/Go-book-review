@@ -7,7 +7,7 @@ import (
 
 var mysqlDB *gorm.DB = nil
 
-func NewPostgresDB(dsn string) (*gorm.DB, error) {
+func NewMysqlDB(dsn string) (*gorm.DB, error) {
 	if mysqlDB != nil {
 		return mysqlDB, nil
 	}

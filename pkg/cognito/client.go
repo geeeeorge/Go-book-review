@@ -2,6 +2,7 @@ package cognito
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -17,7 +18,6 @@ const (
 )
 
 var (
-	ErrUnauthorized    = errors.New("unauthorized")
 	ErrInvalidUserInfo = errors.New("invalid user info")
 )
 
@@ -38,29 +38,42 @@ func New(clientID, userPoolID string) Interface {
 	}
 }
 
-// SignUp cognitoAPIを用いたサインアップ
+// SignUp cognitoAPIを用いたサインアップと認証
 func (c *Client) SignUp(ctx context.Context, id, password string) error {
 	_, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
-	params := &cognitoidentityprovider.SignUpInput{
-		ClientId: aws.String(c.ClientID),
-		Username: aws.String(id),
-		Password: aws.String(password),
-	}
 	client := cognitoidentityprovider.New(
 		session.Must(session.NewSessionWithOptions(session.Options{
 			SharedConfigState: session.SharedConfigEnable,
 		})),
 	)
 
-	res, err := client.SignUp(params)
+	// sign up
+	paramsForSignUp := &cognitoidentityprovider.SignUpInput{
+		ClientId: aws.String(c.ClientID),
+		Username: aws.String(id),
+		Password: aws.String(password),
+	}
+	res, err := client.SignUp(paramsForSignUp)
+	fmt.Println(err)
 	if err != nil {
 		return errors.Wrap(err, "SignUp: failed to authenticate")
 	}
-	if res == nil || !*res.UserConfirmed {
+	if res == nil {
 		return errors.Wrap(ErrInvalidUserInfo, "SignUp: failed to sign up")
 	}
+
+	// 認証
+	paramsForAuth := &cognitoidentityprovider.AdminConfirmSignUpInput{
+		UserPoolId: aws.String(c.UserPoolID),
+		Username:   aws.String(id),
+	}
+	_, err = client.AdminConfirmSignUp(paramsForAuth)
+	if err != nil {
+		return errors.Wrap(err, "SignUp: failed to authenticate")
+	}
+
 	return nil
 }
 
@@ -69,6 +82,13 @@ func (c *Client) Login(ctx context.Context, id, password string) (string, error)
 	_, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
+	client := cognitoidentityprovider.New(
+		session.Must(session.NewSessionWithOptions(session.Options{
+			SharedConfigState: session.SharedConfigEnable,
+		})),
+	)
+
+	// login
 	params := &cognitoidentityprovider.AdminInitiateAuthInput{
 		AuthFlow: aws.String(cognitoidentityprovider.AuthFlowTypeAdminUserPasswordAuth),
 		AuthParameters: map[string]*string{
@@ -78,12 +98,6 @@ func (c *Client) Login(ctx context.Context, id, password string) (string, error)
 		ClientId:   aws.String(c.ClientID),
 		UserPoolId: aws.String(c.UserPoolID),
 	}
-	client := cognitoidentityprovider.New(
-		session.Must(session.NewSessionWithOptions(session.Options{
-			SharedConfigState: session.SharedConfigEnable,
-		})),
-	)
-
 	res, err := client.AdminInitiateAuth(params)
 	if err != nil {
 		return "", errors.Wrap(err, "Login: failed to authenticate")
@@ -91,5 +105,6 @@ func (c *Client) Login(ctx context.Context, id, password string) (string, error)
 	if res == nil || res.AuthenticationResult == nil || res.AuthenticationResult.IdToken == nil {
 		return "", errors.Wrap(ErrInvalidUserInfo, "Login: failed to login")
 	}
+
 	return *res.AuthenticationResult.IdToken, nil
 }

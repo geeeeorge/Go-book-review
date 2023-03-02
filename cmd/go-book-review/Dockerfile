@@ -6,11 +6,11 @@ WORKDIR /workspace
 
 COPY ../.. .
 
-RUN go build -o /artifact/app ./cmd/api
+RUN go build -o /artifact/app ./cmd/go-book-review
 
 FROM gcr.io/distroless/base-debian10
 
 COPY --from=builder /artifact/app /app
 
-EXPOSE 9000
+EXPOSE 8080
 CMD ["/app"]

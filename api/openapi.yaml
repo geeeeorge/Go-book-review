@@ -29,7 +29,7 @@ paths:
       tags:
         - session
       requestBody:
-        $ref: '#/components/requestBodies/authentication'
+        $ref: '#/components/requestBodies/authentication-request'
       responses:
         "201":
           description: "Created"
@@ -40,10 +40,10 @@ paths:
       tags:
         - session
       requestBody:
-        $ref: '#/components/requestBodies/authentication'
+        $ref: '#/components/requestBodies/authentication-request'
       responses:
         "200":
-          $ref: '#/components/responses/login'
+          $ref: '#/components/responses/login-response'
       operationId: login
   "/api/books":
     get:
@@ -52,14 +52,14 @@ paths:
         - book
       responses:
         "200":
-          $ref: '#/components/responses/books'
+          $ref: '#/components/responses/books-response'
       operationId: getBooks
     post:
       summary: "新たなbookを登録"
       tags:
         - book
       requestBody:
-        $ref: '#/components/requestBodies/book'
+        $ref: '#/components/requestBodies/book-request'
       responses:
         "204":
           description: 成功
@@ -75,7 +75,7 @@ paths:
         - book
       responses:
         "200":
-          $ref: '#/components/responses/book'
+          $ref: '#/components/responses/book-response'
       operationId: getBook
     put:
       summary: "already_readの変更を行う"
@@ -104,14 +104,14 @@ paths:
         - $ref: '#/components/parameters/query-book-id'
       responses:
         "200":
-          $ref: '#/components/responses/summaries'
+          $ref: '#/components/responses/summaries-response'
       operationId: getSummaries
     post:
       summary: "book_idのsummaryを登録"
       tags:
         - summary
       requestBody:
-        $ref: '#/components/requestBodies/summary'
+        $ref: '#/components/requestBodies/summary-request'
       responses:
         "204":
           description: 成功
@@ -127,14 +127,14 @@ paths:
         - summary
       responses:
         "200":
-          $ref: '#/components/responses/summary'
+          $ref: '#/components/responses/summary-response'
       operationId: getSummary
     put:
       summary: "summary_idのsummaryを修正"
       tags:
         - summary
       requestBody:
-        $ref: '#/components/requestBodies/put-summary'
+        $ref: '#/components/requestBodies/put-summary-request'
       responses:
         "204":
           description: 成功
@@ -154,14 +154,14 @@ paths:
         - tag
       responses:
         "200":
-          $ref: '#/components/responses/tags'
+          $ref: '#/components/responses/tags-response'
       operationId: getTags
     post:
       summary: "usernameのtagリストにtagを追加"
       tags:
         - tag
       requestBody:
-        $ref: '#/components/requestBodies/tag'
+        $ref: '#/components/requestBodies/tag-request'
       responses:
         "204":
           description: 成功
@@ -177,14 +177,14 @@ paths:
         - tag
       responses:
         "200":
-          $ref: '#/components/responses/tag'
+          $ref: '#/components/responses/tag-response'
       operationId: getTag
     put:
       summary: "username, tag_idのtagを修正"
       tags:
         - tag
       requestBody:
-        $ref: '#/components/requestBodies/put-tag'
+        $ref: '#/components/requestBodies/put-tag-request'
       responses:
         "204":
           description: 成功
@@ -320,7 +320,7 @@ components:
         - tag_id
         - tag
   requestBodies:
-    authentication:
+    authentication-request:
       required: true
       content:
         application/json:
@@ -333,7 +333,7 @@ components:
               password:
                 type: string
                 description: password
-    book:
+    book-request:
       required: true
       content:
         application/json:
@@ -346,7 +346,7 @@ components:
               amazon_url:
                 type: string
                 description: amazon_url
-    summary:
+    summary-request:
       required: true
       content:
         application/json:
@@ -359,7 +359,7 @@ components:
               summary:
                 type: string
                 description: summary
-    put-summary:
+    put-summary-request:
       required: true
       content:
         application/json:
@@ -369,7 +369,7 @@ components:
               summary:
                 type: string
                 description: summary
-    tag:
+    tag-request:
       required: true
       content:
         application/json:
@@ -382,7 +382,7 @@ components:
               tag:
                 type: string
                 description: tag
-    put-tag:
+    put-tag-request:
       required: true
       content:
         application/json:
@@ -393,43 +393,43 @@ components:
                 type: string
                 description: tag
   responses:
-    login:
+    login-response:
       description: 成功
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/login'
-    books:
+    books-response:
       description: 成功
       content:
         multipart/form-data:
           schema:
             $ref: '#/components/schemas/books'
-    book:
+    book-response:
       description: 成功
       content:
         multipart/form-data:
           schema:
             $ref: '#/components/schemas/book'
-    summaries:
+    summaries-response:
       description: 成功
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/summaries'
-    summary:
+    summary-response:
       description: 成功
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/summary'
-    tags:
+    tags-response:
       description: 成功
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/tags'
-    tag:
+    tag-response:
       description: 成功
       content:
         application/json:

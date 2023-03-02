@@ -1,8 +1,9 @@
 .PHONY: gen-api
 gen-api:
 	mkdir -p ./gen/api
-	go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.11.0
-	oapi-codegen --config config/oapi-codegen/server.yaml ./api/openapi.yaml
+	go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+	oapi-codegen -generate "server" -package api api/openapi.yaml > ./gen/api/server.gen.go
+	oapi-codegen -generate "types" -package api api/openapi.yaml > ./gen/api/types.gen.go
 
 .PHONY: go-fix-lint
 go-fix-lint:

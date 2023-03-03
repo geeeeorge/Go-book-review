@@ -7,13 +7,25 @@ import (
 	openapi_types "github.com/deepmap/oapi-codegen/pkg/types"
 )
 
+// Defines values for BookStatus.
+const (
+	Doing BookStatus = "doing"
+	Done  BookStatus = "done"
+	Want  BookStatus = "want"
+	Will  BookStatus = "will"
+)
+
 // Book defines model for book.
 type Book struct {
 	// BookId uuid
 	BookId string              `json:"book_id"`
 	Image  *openapi_types.File `json:"image,omitempty"`
+	Status *BookStatus         `json:"status,omitempty"`
 	Title  string              `json:"title"`
 }
+
+// BookStatus defines model for book-status.
+type BookStatus string
 
 // Books defines model for books.
 type Books = []Book
@@ -29,30 +41,30 @@ type Summaries = []Summary
 
 // Summary defines model for summary.
 type Summary struct {
-	// SumamryId uuid
-	SumamryId *string `json:"sumamry_id,omitempty"`
-	Summary   string  `json:"summary"`
+	Content string `json:"content"`
+
+	// Id uuid
+	Id string `json:"id"`
 }
 
 // Tag defines model for tag.
 type Tag struct {
-	Tag string `json:"tag"`
-
-	// TagId uuid
-	TagId string `json:"tag_id"`
+	// Id uuid
+	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // Tags defines model for tags.
 type Tags = []Tag
-
-// AlreadyRead defines model for already-read.
-type AlreadyRead = bool
 
 // BookId defines model for book-id.
 type BookId = string
 
 // QueryBookId defines model for query-book-id.
 type QueryBookId = string
+
+// Status defines model for status.
+type Status = BookStatus
 
 // SummaryId defines model for summary-id.
 type SummaryId = string
@@ -88,21 +100,18 @@ type AuthenticationRequest struct {
 type BookRequest struct {
 	// AmazonUrl amazon_url
 	AmazonUrl *string `json:"amazon_url,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
 }
 
 // PutSummaryRequest defines model for put-summary-request.
 type PutSummaryRequest struct {
-	// Summary summary
-	Summary *string `json:"summary,omitempty"`
+	// Content summary
+	Content *string `json:"content,omitempty"`
 }
 
 // PutTagRequest defines model for put-tag-request.
 type PutTagRequest struct {
-	// Tag tag
-	Tag *string `json:"tag,omitempty"`
+	// Name tag
+	Name *string `json:"name,omitempty"`
 }
 
 // SummaryRequest defines model for summary-request.
@@ -110,31 +119,25 @@ type SummaryRequest struct {
 	// BookId book_id
 	BookId *string `json:"book_id,omitempty"`
 
-	// Summary summary
-	Summary *string `json:"summary,omitempty"`
+	// Content summary
+	Content *string `json:"content,omitempty"`
 }
 
 // TagRequest defines model for tag-request.
 type TagRequest struct {
-	// Tag tag
-	Tag *string `json:"tag,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
+	// Name tag
+	Name *string `json:"name,omitempty"`
 }
 
 // PostBooksJSONBody defines parameters for PostBooks.
 type PostBooksJSONBody struct {
 	// AmazonUrl amazon_url
 	AmazonUrl *string `json:"amazon_url,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
 }
 
 // PutBookParams defines parameters for PutBook.
 type PutBookParams struct {
-	AlreadyRead AlreadyRead `form:"already_read" json:"already_read"`
+	Status Status `form:"status" json:"status"`
 }
 
 // GetSummariesParams defines parameters for GetSummaries.
@@ -147,29 +150,26 @@ type PostSummariesJSONBody struct {
 	// BookId book_id
 	BookId *string `json:"book_id,omitempty"`
 
-	// Summary summary
-	Summary *string `json:"summary,omitempty"`
+	// Content summary
+	Content *string `json:"content,omitempty"`
 }
 
 // PutSummaryJSONBody defines parameters for PutSummary.
 type PutSummaryJSONBody struct {
-	// Summary summary
-	Summary *string `json:"summary,omitempty"`
+	// Content summary
+	Content *string `json:"content,omitempty"`
 }
 
 // PostTagsJSONBody defines parameters for PostTags.
 type PostTagsJSONBody struct {
-	// Tag tag
-	Tag *string `json:"tag,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
+	// Name tag
+	Name *string `json:"name,omitempty"`
 }
 
 // PutTagJSONBody defines parameters for PutTag.
 type PutTagJSONBody struct {
-	// Tag tag
-	Tag *string `json:"tag,omitempty"`
+	// Name tag
+	Name *string `json:"name,omitempty"`
 }
 
 // LoginJSONBody defines parameters for Login.

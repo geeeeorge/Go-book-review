@@ -23,13 +23,13 @@ type ServerInterface interface {
 	// (POST /api/books)
 	PostBooks(ctx echo.Context) error
 	// book_idの本を削除
-	// (DELETE /api/books/{book_id})
+	// (DELETE /api/books/{book-id})
 	DeleteBook(ctx echo.Context, bookId BookId) error
 	// book_idから本の情報を取得
-	// (GET /api/books/{book_id})
+	// (GET /api/books/{book-id})
 	GetBook(ctx echo.Context, bookId BookId) error
-	// already_readの変更を行う
-	// (PUT /api/books/{book_id})
+	// statusの変更を行う
+	// (PUT /api/books/{book-id}/status)
 	PutBook(ctx echo.Context, bookId BookId, params PutBookParams) error
 	// book_idのsummary_idのsummaryを全取得
 	// (GET /api/summaries)
@@ -38,13 +38,13 @@ type ServerInterface interface {
 	// (POST /api/summaries)
 	PostSummaries(ctx echo.Context) error
 	// summary_idのsummaryを削除
-	// (DELETE /api/summaries/{summary_id})
+	// (DELETE /api/summaries/{summary-id})
 	DeleteSummary(ctx echo.Context, summaryId SummaryId) error
 	// summary_idのsummaryを取得
-	// (GET /api/summaries/{summary_id})
+	// (GET /api/summaries/{summary-id})
 	GetSummary(ctx echo.Context, summaryId SummaryId) error
 	// summary_idのsummaryを修正
-	// (PUT /api/summaries/{summary_id})
+	// (PUT /api/summaries/{summary-id})
 	PutSummary(ctx echo.Context, summaryId SummaryId) error
 	// usernameのタグを全取得
 	// (GET /api/tags)
@@ -53,13 +53,13 @@ type ServerInterface interface {
 	// (POST /api/tags)
 	PostTags(ctx echo.Context) error
 	// username, tag_idのtagを修正
-	// (DELETE /api/tags/{tag_id})
+	// (DELETE /api/tags/{tag-id})
 	DeleteTag(ctx echo.Context, tagId TagId) error
 	// username, tag_idのtagを取得
-	// (GET /api/tags/{tag_id})
+	// (GET /api/tags/{tag-id})
 	GetTag(ctx echo.Context, tagId TagId) error
 	// username, tag_idのtagを修正
-	// (PUT /api/tags/{tag_id})
+	// (PUT /api/tags/{tag-id})
 	PutTag(ctx echo.Context, tagId TagId) error
 	// login
 	// (POST /login)
@@ -104,12 +104,12 @@ func (w *ServerInterfaceWrapper) PostBooks(ctx echo.Context) error {
 // DeleteBook converts echo context to params.
 func (w *ServerInterfaceWrapper) DeleteBook(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "book_id" -------------
+	// ------------- Path parameter "book-id" -------------
 	var bookId BookId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "book_id", runtime.ParamLocationPath, ctx.Param("book_id"), &bookId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "book-id", runtime.ParamLocationPath, ctx.Param("book-id"), &bookId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -120,12 +120,12 @@ func (w *ServerInterfaceWrapper) DeleteBook(ctx echo.Context) error {
 // GetBook converts echo context to params.
 func (w *ServerInterfaceWrapper) GetBook(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "book_id" -------------
+	// ------------- Path parameter "book-id" -------------
 	var bookId BookId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "book_id", runtime.ParamLocationPath, ctx.Param("book_id"), &bookId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "book-id", runtime.ParamLocationPath, ctx.Param("book-id"), &bookId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -136,21 +136,21 @@ func (w *ServerInterfaceWrapper) GetBook(ctx echo.Context) error {
 // PutBook converts echo context to params.
 func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "book_id" -------------
+	// ------------- Path parameter "book-id" -------------
 	var bookId BookId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "book_id", runtime.ParamLocationPath, ctx.Param("book_id"), &bookId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "book-id", runtime.ParamLocationPath, ctx.Param("book-id"), &bookId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params PutBookParams
-	// ------------- Required query parameter "already_read" -------------
+	// ------------- Required query parameter "status" -------------
 
-	err = runtime.BindQueryParameter("form", true, true, "already_read", ctx.QueryParams(), &params.AlreadyRead)
+	err = runtime.BindQueryParameter("form", true, true, "status", ctx.QueryParams(), &params.Status)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter already_read: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter status: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -188,12 +188,12 @@ func (w *ServerInterfaceWrapper) PostSummaries(ctx echo.Context) error {
 // DeleteSummary converts echo context to params.
 func (w *ServerInterfaceWrapper) DeleteSummary(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "summary_id" -------------
+	// ------------- Path parameter "summary-id" -------------
 	var summaryId SummaryId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "summary_id", runtime.ParamLocationPath, ctx.Param("summary_id"), &summaryId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "summary-id", runtime.ParamLocationPath, ctx.Param("summary-id"), &summaryId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -204,12 +204,12 @@ func (w *ServerInterfaceWrapper) DeleteSummary(ctx echo.Context) error {
 // GetSummary converts echo context to params.
 func (w *ServerInterfaceWrapper) GetSummary(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "summary_id" -------------
+	// ------------- Path parameter "summary-id" -------------
 	var summaryId SummaryId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "summary_id", runtime.ParamLocationPath, ctx.Param("summary_id"), &summaryId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "summary-id", runtime.ParamLocationPath, ctx.Param("summary-id"), &summaryId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -220,12 +220,12 @@ func (w *ServerInterfaceWrapper) GetSummary(ctx echo.Context) error {
 // PutSummary converts echo context to params.
 func (w *ServerInterfaceWrapper) PutSummary(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "summary_id" -------------
+	// ------------- Path parameter "summary-id" -------------
 	var summaryId SummaryId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "summary_id", runtime.ParamLocationPath, ctx.Param("summary_id"), &summaryId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "summary-id", runtime.ParamLocationPath, ctx.Param("summary-id"), &summaryId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -254,12 +254,12 @@ func (w *ServerInterfaceWrapper) PostTags(ctx echo.Context) error {
 // DeleteTag converts echo context to params.
 func (w *ServerInterfaceWrapper) DeleteTag(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "tag_id" -------------
+	// ------------- Path parameter "tag-id" -------------
 	var tagId TagId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "tag_id", runtime.ParamLocationPath, ctx.Param("tag_id"), &tagId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "tag-id", runtime.ParamLocationPath, ctx.Param("tag-id"), &tagId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -270,12 +270,12 @@ func (w *ServerInterfaceWrapper) DeleteTag(ctx echo.Context) error {
 // GetTag converts echo context to params.
 func (w *ServerInterfaceWrapper) GetTag(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "tag_id" -------------
+	// ------------- Path parameter "tag-id" -------------
 	var tagId TagId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "tag_id", runtime.ParamLocationPath, ctx.Param("tag_id"), &tagId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "tag-id", runtime.ParamLocationPath, ctx.Param("tag-id"), &tagId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -286,12 +286,12 @@ func (w *ServerInterfaceWrapper) GetTag(ctx echo.Context) error {
 // PutTag converts echo context to params.
 func (w *ServerInterfaceWrapper) PutTag(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "tag_id" -------------
+	// ------------- Path parameter "tag-id" -------------
 	var tagId TagId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "tag_id", runtime.ParamLocationPath, ctx.Param("tag_id"), &tagId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "tag-id", runtime.ParamLocationPath, ctx.Param("tag-id"), &tagId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -348,19 +348,19 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.GET(baseURL+"/api/_healthz", wrapper.GetApiHealthz)
 	router.GET(baseURL+"/api/books", wrapper.GetBooks)
 	router.POST(baseURL+"/api/books", wrapper.PostBooks)
-	router.DELETE(baseURL+"/api/books/:book_id", wrapper.DeleteBook)
-	router.GET(baseURL+"/api/books/:book_id", wrapper.GetBook)
-	router.PUT(baseURL+"/api/books/:book_id", wrapper.PutBook)
+	router.DELETE(baseURL+"/api/books/:book-id", wrapper.DeleteBook)
+	router.GET(baseURL+"/api/books/:book-id", wrapper.GetBook)
+	router.PUT(baseURL+"/api/books/:book-id/status", wrapper.PutBook)
 	router.GET(baseURL+"/api/summaries", wrapper.GetSummaries)
 	router.POST(baseURL+"/api/summaries", wrapper.PostSummaries)
-	router.DELETE(baseURL+"/api/summaries/:summary_id", wrapper.DeleteSummary)
-	router.GET(baseURL+"/api/summaries/:summary_id", wrapper.GetSummary)
-	router.PUT(baseURL+"/api/summaries/:summary_id", wrapper.PutSummary)
+	router.DELETE(baseURL+"/api/summaries/:summary-id", wrapper.DeleteSummary)
+	router.GET(baseURL+"/api/summaries/:summary-id", wrapper.GetSummary)
+	router.PUT(baseURL+"/api/summaries/:summary-id", wrapper.PutSummary)
 	router.GET(baseURL+"/api/tags", wrapper.GetTags)
 	router.POST(baseURL+"/api/tags", wrapper.PostTags)
-	router.DELETE(baseURL+"/api/tags/:tag_id", wrapper.DeleteTag)
-	router.GET(baseURL+"/api/tags/:tag_id", wrapper.GetTag)
-	router.PUT(baseURL+"/api/tags/:tag_id", wrapper.PutTag)
+	router.DELETE(baseURL+"/api/tags/:tag-id", wrapper.DeleteTag)
+	router.GET(baseURL+"/api/tags/:tag-id", wrapper.GetTag)
+	router.PUT(baseURL+"/api/tags/:tag-id", wrapper.PutTag)
 	router.POST(baseURL+"/login", wrapper.Login)
 	router.POST(baseURL+"/signup", wrapper.Signup)
 

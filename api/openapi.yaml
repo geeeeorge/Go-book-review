@@ -66,7 +66,7 @@ paths:
         "400":
           description: 失敗
       operationId: postBooks
-  "/api/books/{book_id}":
+  "/api/books/{book-id}":
     parameters:
       - $ref: '#/components/parameters/book-id'
     get:
@@ -77,16 +77,6 @@ paths:
         "200":
           $ref: '#/components/responses/book-response'
       operationId: getBook
-    put:
-      summary: "already_readの変更を行う"
-      tags:
-        - book
-      parameters:
-        - $ref: '#/components/parameters/already-read'
-      responses:
-        "204":
-          description: 成功
-      operationId: putBook
     delete:
       summary: "book_idの本を削除"
       tags:
@@ -95,6 +85,19 @@ paths:
         "204":
           description: No Content
       operationId: deleteBook
+  "/api/books/{book-id}/status":
+    parameters:
+      - $ref: '#/components/parameters/book-id'
+    put:
+      summary: "statusの変更を行う"
+      tags:
+        - book
+      parameters:
+        - $ref: '#/components/parameters/status'
+      responses:
+        "204":
+          description: 成功
+      operationId: putBook
   "/api/summaries":
     get:
       summary: "book_idのsummary_idのsummaryを全取得"
@@ -118,7 +121,7 @@ paths:
         "400":
           description: 失敗
       operationId: postSummaries
-  "/api/summaries/{summary_id}":
+  "/api/summaries/{summary-id}":
     parameters:
       - $ref: '#/components/parameters/summary-id'
     get:
@@ -168,7 +171,7 @@ paths:
         "400":
           description: 失敗
       operationId: postTags
-  "/api/tags/{tag_id}":
+  "/api/tags/{tag-id}":
     parameters:
       - $ref: '#/components/parameters/tag-id'
     get:
@@ -206,55 +209,31 @@ components:
   parameters:
     book-id:
       in: path
-      name: book_id
+      name: book-id
       schema:
         type: string
       required: true
+    status:
+      in: query
+      name: status
+      schema:
+        $ref: '#/components/schemas/book-status'
+      required: true
     summary-id:
       in: path
-      name: summary_id
+      name: summary-id
       schema:
         type: string
       required: true
     tag-id:
       in: path
-      name: tag_id
+      name: tag-id
       schema:
         type: string
       required: true
     query-book-id:
       in: query
       name: book_id
-      schema:
-        type: string
-      required: true
-    username:
-      in: query
-      name: username
-      schema:
-        type: string
-      required: true
-    amazon-url:
-      in: query
-      name: amazon_url
-      schema:
-        type: string
-      required: true
-    already-read:
-      in: query
-      name: already_read
-      schema:
-        type: boolean
-      required: true
-    summary:
-      in: query
-      name: content
-      schema:
-        type: string
-      required: true
-    tag:
-      in: query
-      name: tag
       schema:
         type: string
       required: true
@@ -282,9 +261,18 @@ components:
         image:
           type: string
           format: binary
+        status:
+          $ref: '#/components/schemas/book-status'
       required:
         - book_id
         - title
+    book-status:
+      type: string
+      enum:
+        - want # 読みたい
+        - will # 積読
+        - doing # 読んでいる
+        - done # 読み終わった
     summaries:
       type: array
       items:
@@ -294,14 +282,14 @@ components:
     summary:
       type: object
       properties:
-        sumamry_id:
+        id:
           type: string
           description: uuid
-        summary:
+        content:
           type: string
       required:
-        - summary_id
-        - summary
+        - id
+        - content
     tags:
       type: array
       items:
@@ -311,14 +299,14 @@ components:
     tag:
       type: object
       properties:
-        tag_id:
+        id:
           type: string
           description: uuid
-        tag:
+        name:
           type: string
       required:
-        - tag_id
-        - tag
+        - id
+        - name
   requestBodies:
     authentication-request:
       required: true
@@ -340,9 +328,6 @@ components:
           schema:
             type: object
             properties:
-              username:
-                type: string
-                description: username
               amazon_url:
                 type: string
                 description: amazon_url
@@ -356,7 +341,7 @@ components:
               book_id:
                 type: string
                 description: book_id
-              summary:
+              content:
                 type: string
                 description: summary
     put-summary-request:
@@ -366,7 +351,7 @@ components:
           schema:
             type: object
             properties:
-              summary:
+              content:
                 type: string
                 description: summary
     tag-request:
@@ -376,10 +361,7 @@ components:
           schema:
             type: object
             properties:
-              username:
-                type: string
-                description: username
-              tag:
+              name:
                 type: string
                 description: tag
     put-tag-request:
@@ -389,7 +371,7 @@ components:
           schema:
             type: object
             properties:
-              tag:
+              name:
                 type: string
                 description: tag
   responses:

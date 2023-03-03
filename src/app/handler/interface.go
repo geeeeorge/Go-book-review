@@ -7,112 +7,22 @@ import (
 )
 
 type Interface interface {
-	GetApiHealthz(ctx echo.Context) error
-	GetBooks(ctx echo.Context) error
-	PostBooks(ctx echo.Context) error
-	DeleteBook(ctx echo.Context, bookId api.BookId) error
-	GetBook(ctx echo.Context, bookId api.BookId) error
-	PutBook(ctx echo.Context, bookId api.BookId, params api.PutBookParams) error
-	GetSummaries(ctx echo.Context, params api.GetSummariesParams) error
-	PostSummaries(ctx echo.Context) error
-	DeleteSummary(ctx echo.Context, summaryId api.SummaryId) error
-	GetSummary(ctx echo.Context, summaryId api.SummaryId) error
-	PutSummary(ctx echo.Context, summaryId api.SummaryId) error
-	GetTags(ctx echo.Context) error
-	PostTags(ctx echo.Context) error
-	DeleteTag(ctx echo.Context, tagId api.TagId) error
-	GetTag(ctx echo.Context, tagId api.TagId) error
-	PutTag(ctx echo.Context, tagId api.TagId) error
-	Login(ctx echo.Context) error
-	Signup(ctx echo.Context) error
-}
-
-func (c *Client) GetApiHealthz(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetBooks(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) DeleteBook(ctx echo.Context, bookId api.BookId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetBook(ctx echo.Context, bookId api.BookId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PutBook(ctx echo.Context, bookId api.BookId, params api.PutBookParams) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetSummaries(ctx echo.Context, params api.GetSummariesParams) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) DeleteSummary(ctx echo.Context, summaryId api.SummaryId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetSummary(ctx echo.Context, summaryId api.SummaryId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PutSummary(ctx echo.Context, summaryId api.SummaryId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetTags(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) DeleteTag(ctx echo.Context, tagId api.TagId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) GetTag(ctx echo.Context, tagId api.TagId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PutTag(ctx echo.Context, tagId api.TagId) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) Login(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) Signup(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PostBooks(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PostSummaries(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (c *Client) PostTags(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
+	GetApiHealthz(ec echo.Context) error
+	GetBooks(ec echo.Context) error
+	PostBooks(ec echo.Context) error
+	DeleteBook(ec echo.Context, bookId api.BookId) error
+	GetBook(ec echo.Context, bookId api.BookId) error
+	PutBook(ec echo.Context, bookId api.BookId, params api.PutBookParams) error
+	GetSummaries(ec echo.Context, params api.GetSummariesParams) error
+	PostSummaries(ec echo.Context) error
+	DeleteSummary(ec echo.Context, summaryId api.SummaryId) error
+	GetSummary(ec echo.Context, summaryId api.SummaryId) error
+	PutSummary(ec echo.Context, summaryId api.SummaryId) error
+	GetTags(ec echo.Context) error
+	PostTags(ec echo.Context) error
+	DeleteTag(ec echo.Context, tagId api.TagId) error
+	GetTag(ec echo.Context, tagId api.TagId) error
+	PutTag(ec echo.Context, tagId api.TagId) error
+	Login(ec echo.Context) error
+	Signup(ec echo.Context) error
 }

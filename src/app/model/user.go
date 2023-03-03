@@ -11,14 +11,12 @@ type User struct {
 func (u *User) LoadDAO(d *dao.User) {
 	u.ID = d.ID
 	u.Username = d.Username
-	u.Password = d.Password
 }
 
 func (u *User) DAO() *dao.User {
 	ret := &dao.User{
 		ID:       u.ID,
 		Username: u.Username,
-		Password: u.Password,
 	}
 	return ret
 }

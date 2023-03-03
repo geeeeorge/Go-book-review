@@ -18,7 +18,7 @@ const (
 // Book defines model for book.
 type Book struct {
 	// BookId uuid
-	BookId    string              `json:"book_id"`
+	BookId    int64               `json:"book_id"`
 	Image     *openapi_types.File `json:"image,omitempty"`
 	Status    *BookStatus         `json:"status,omitempty"`
 	Summaries *Summaries          `json:"summaries,omitempty"`
@@ -46,33 +46,39 @@ type Summary struct {
 	Content string `json:"content"`
 
 	// Id uuid
-	Id string `json:"id"`
+	Id int64 `json:"id"`
 }
 
 // Tag defines model for tag.
 type Tag struct {
 	// Id uuid
-	Id   string `json:"id"`
+	Id   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
 // Tags defines model for tags.
 type Tags = []Tag
 
+// User defines model for user.
+type User struct {
+	Password *string `json:"password,omitempty"`
+	Username *string `json:"username,omitempty"`
+}
+
 // BookId defines model for book-id.
-type BookId = string
+type BookId = int64
 
 // QueryBookId defines model for query-book-id.
-type QueryBookId = string
+type QueryBookId = int64
 
 // Status defines model for status.
 type Status = BookStatus
 
 // SummaryId defines model for summary-id.
-type SummaryId = string
+type SummaryId = int64
 
 // TagId defines model for tag-id.
-type TagId = string
+type TagId = int64
 
 // LoginResponse defines model for login-response.
 type LoginResponse = Login
@@ -90,13 +96,7 @@ type TagResponse = Tag
 type TagsResponse = Tags
 
 // AuthenticationRequest defines model for authentication-request.
-type AuthenticationRequest struct {
-	// Password password
-	Password *string `json:"password,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
-}
+type AuthenticationRequest = User
 
 // BookRequest defines model for book-request.
 type BookRequest struct {
@@ -119,7 +119,7 @@ type PutTagRequest struct {
 // SummaryRequest defines model for summary-request.
 type SummaryRequest struct {
 	// BookId book_id
-	BookId *string `json:"book_id,omitempty"`
+	BookId *int64 `json:"book_id,omitempty"`
 
 	// Content summary
 	Content *string `json:"content,omitempty"`
@@ -150,7 +150,7 @@ type GetSummariesParams struct {
 // PostSummariesJSONBody defines parameters for PostSummaries.
 type PostSummariesJSONBody struct {
 	// BookId book_id
-	BookId *string `json:"book_id,omitempty"`
+	BookId *int64 `json:"book_id,omitempty"`
 
 	// Content summary
 	Content *string `json:"content,omitempty"`
@@ -174,24 +174,6 @@ type PutTagJSONBody struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// LoginJSONBody defines parameters for Login.
-type LoginJSONBody struct {
-	// Password password
-	Password *string `json:"password,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
-}
-
-// SignupJSONBody defines parameters for Signup.
-type SignupJSONBody struct {
-	// Password password
-	Password *string `json:"password,omitempty"`
-
-	// Username username
-	Username *string `json:"username,omitempty"`
-}
-
 // PostBooksJSONRequestBody defines body for PostBooks for application/json ContentType.
 type PostBooksJSONRequestBody PostBooksJSONBody
 
@@ -208,7 +190,7 @@ type PostTagsJSONRequestBody PostTagsJSONBody
 type PutTagJSONRequestBody PutTagJSONBody
 
 // LoginJSONRequestBody defines body for Login for application/json ContentType.
-type LoginJSONRequestBody LoginJSONBody
+type LoginJSONRequestBody = User
 
 // SignupJSONRequestBody defines body for Signup for application/json ContentType.
-type SignupJSONRequestBody SignupJSONBody
+type SignupJSONRequestBody = User

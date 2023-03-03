@@ -263,6 +263,10 @@ components:
           format: binary
         status:
           $ref: '#/components/schemas/book-status'
+        summaries:
+          $ref: '#/components/schemas/summaries'
+        tags:
+          $ref: '#/components/schemas/tags'
       required:
         - book_id
         - title

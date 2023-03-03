@@ -18,10 +18,12 @@ const (
 // Book defines model for book.
 type Book struct {
 	// BookId uuid
-	BookId string              `json:"book_id"`
-	Image  *openapi_types.File `json:"image,omitempty"`
-	Status *BookStatus         `json:"status,omitempty"`
-	Title  string              `json:"title"`
+	BookId    string              `json:"book_id"`
+	Image     *openapi_types.File `json:"image,omitempty"`
+	Status    *BookStatus         `json:"status,omitempty"`
+	Summaries *Summaries          `json:"summaries,omitempty"`
+	Tags      *Tags               `json:"tags,omitempty"`
+	Title     string              `json:"title"`
 }
 
 // BookStatus defines model for book-status.

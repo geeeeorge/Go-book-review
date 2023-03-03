@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/MicahParks/keyfunc v1.9.0
+	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/aws/aws-sdk-go v1.44.211
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/golang-jwt/jwt/v4 v4.4.2
@@ -18,6 +19,7 @@ require (
 )
 
 require (
+	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect

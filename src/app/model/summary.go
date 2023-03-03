@@ -3,21 +3,15 @@ package model
 import "github.com/geeeeorge/Go-book-review/src/app/dao"
 
 type Summary struct {
-	ID      int
-	BookID  int
+	ID      int64
+	BookID  int64
 	Content string
 }
 
 func (s *Summary) LoadDAO(d *dao.Summary) {
-	if d.ID != 0 {
-		s.ID = d.ID
-	}
-	if d.BookID != 0 {
-		s.BookID = d.BookID
-	}
-	if d.Content != "" {
-		s.Content = d.Content
-	}
+	s.ID = d.ID
+	s.BookID = d.BookID
+	s.Content = d.Content
 }
 
 func (s *Summary) DAO() *dao.Summary {

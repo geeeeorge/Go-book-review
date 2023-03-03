@@ -3,8 +3,7 @@ package model
 import "github.com/geeeeorge/Go-book-review/src/app/dao"
 
 type Book struct {
-	ID        int
-	UserID    int
+	ID        int64
 	Title     string
 	Image     []byte
 	AmazonURL string
@@ -13,56 +12,39 @@ type Book struct {
 	Tags      []*Tag
 }
 
-func (b *Book) LoadDAO(bss []*dao.BookSummary, bts []*dao.BookTag) {
-	d := bss[0]
-	if d.ID != 0 {
-		b.ID = d.ID
-	}
-	if d.UserID != 0 {
-		b.UserID = d.UserID
-	}
-	if d.Title != "" {
-		b.Title = d.Title
-	}
-	if d.Image != nil {
-		b.Image = d.Image
-	}
-	if d.AmazonURL != "" {
-		b.AmazonURL = d.AmazonURL
-	}
-	if d.Status != "" {
-		b.Status = d.Status
-	}
+func (b *Book) LoadDAO(bst []*dao.BookSummaryTag) {
+	d := bst[0]
+	b.ID = d.ID
+	b.Title = d.Title
+	b.Image = d.Image
+	b.AmazonURL = d.AmazonURL
+	b.Status = d.Status
 
-	summaries := make([]*Summary, 0, len(bss))
-	for _, bs := range bss {
-		s := Summary{}
-		if bs.SummaryID != 0 {
-			s.ID = bs.SummaryID
-		}
-		if bs.SummaryContent != "" {
-			s.Content = bs.SummaryContent
-		}
-		summaries = append(summaries, &s)
-	}
+	summaryMap := map[int64]interface{}{}
+	tagMap := map[int64]interface{}{}
 
-	tags := make([]*Tag, 0, len(bts))
-	for _, bt := range bts {
-		t := Tag{}
-		if bt.TagID != 0 {
-			t.ID = bt.TagID
+	for _, d := range bst {
+		_, ok := summaryMap[d.SummaryID]
+		if !ok {
+			b.Summaries = append(b.Summaries, &Summary{
+				ID:      d.SummaryID,
+				Content: d.SummaryContent,
+			})
 		}
-		if bt.TagName != "" {
-			t.Name = bt.TagName
+		_, ok = tagMap[d.TagID]
+		if !ok {
+			b.Tags = append(b.Tags, &Tag{
+				ID:   d.TagID,
+				Name: d.TagName,
+			})
 		}
-		tags = append(tags, &t)
 	}
 }
 
-func (b *Book) DAO(uid int) (*dao.Book, []*dao.TagBook) {
+func (b *Book) DAO(uid int64) (*dao.Book, []*dao.TagBook) {
 	book := &dao.Book{
 		ID:        b.ID,
-		UserID:    b.UserID,
+		UserID:    uid,
 		Title:     b.Title,
 		Image:     b.Image,
 		AmazonURL: b.AmazonURL,
@@ -77,4 +59,47 @@ func (b *Book) DAO(uid int) (*dao.Book, []*dao.TagBook) {
 		tagBooks = append(tagBooks, &tagBook)
 	}
 	return book, tagBooks
+}
+
+type Books struct {
+	books []*Book
+}
+
+func (b *Books) LoadDAO(bst []*dao.BookSummaryTag) {
+	bookMap := map[int64]*Book{}
+	summaryMap := map[int64]interface{}{}
+	tagMap := map[int64]interface{}{}
+
+	for _, d := range bst {
+		book, ok := bookMap[d.ID]
+		if !ok {
+			book = &Book{
+				ID:        d.ID,
+				Title:     d.Title,
+				Image:     d.Image,
+				AmazonURL: d.AmazonURL,
+				Status:    d.Status,
+				Summaries: []*Summary{},
+				Tags:      []*Tag{},
+			}
+			bookMap[d.ID] = book
+		}
+		_, ok = summaryMap[d.SummaryID]
+		if !ok {
+			book.Summaries = append(book.Summaries, &Summary{
+				ID:      d.SummaryID,
+				Content: d.SummaryContent,
+			})
+		}
+		_, ok = tagMap[d.TagID]
+		if !ok {
+			book.Tags = append(book.Tags, &Tag{
+				ID:   d.TagID,
+				Name: d.TagName,
+			})
+		}
+	}
+	for _, book := range bookMap {
+		b.books = append(b.books, book)
+	}
 }

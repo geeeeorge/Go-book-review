@@ -211,7 +211,8 @@ components:
       in: path
       name: book-id
       schema:
-        type: string
+        type: integer
+        format: int64
       required: true
     status:
       in: query
@@ -223,19 +224,22 @@ components:
       in: path
       name: summary-id
       schema:
-        type: string
+        type: integer
+        format: int64
       required: true
     tag-id:
       in: path
       name: tag-id
       schema:
-        type: string
+        type: integer
+        format: int64
       required: true
     query-book-id:
       in: query
       name: book_id
       schema:
-        type: string
+        type: integer
+        format: int64
       required: true
   schemas:
     login:
@@ -254,7 +258,8 @@ components:
       type: object
       properties:
         book_id:
-          type: string
+          type: integer
+          format: int64
           description: uuid
         title:
           type: string
@@ -287,7 +292,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
           description: uuid
         content:
           type: string
@@ -304,7 +310,8 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
           description: uuid
         name:
           type: string
@@ -343,7 +350,8 @@ components:
             type: object
             properties:
               book_id:
-                type: string
+                type: integer
+                format: int64
                 description: book_id
               content:
                 type: string

@@ -2,7 +2,7 @@ package dao
 
 // Summary summariesテーブルのDAO
 type Summary struct {
-	ID      int    `db:"id"`
-	BookID  int    `db:"book_id"`
+	ID      int64  `db:"id"`
+	BookID  int64  `db:"book_id"`
 	Content string `db:"content"`
 }

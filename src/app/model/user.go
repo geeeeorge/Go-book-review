@@ -3,21 +3,15 @@ package model
 import "github.com/geeeeorge/Go-book-review/src/app/dao"
 
 type User struct {
-	ID       int
+	ID       int64
 	Username string
 	Password string
 }
 
 func (u *User) LoadDAO(d *dao.User) {
-	if d.ID != 0 {
-		u.ID = d.ID
-	}
-	if d.Username != "" {
-		u.Username = d.Username
-	}
-	if d.Password != "" {
-		u.Password = d.Password
-	}
+	u.ID = d.ID
+	u.Username = d.Username
+	u.Password = d.Password
 }
 
 func (u *User) DAO() *dao.User {

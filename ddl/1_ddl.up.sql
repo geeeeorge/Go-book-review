@@ -9,20 +9,13 @@ CREATE TABLE users (
 
 CREATE TABLE books (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INTEGER NOT NULL,
     title VARCHAR(128),
     image mediumblob NOT NULL,
     amazon_url TEXT,
     `status` VARCHAR(16) NOT NULL, -- want, will, doing, done
     created_ad TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
-CREATE TABLE user_books (
-    user_id INTEGER NOT NULL,
-    book_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, book_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE summaries (
@@ -44,9 +37,9 @@ CREATE TABLE tags (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE tag_books (
-    user_id INTEGER NOT NULL,
+    book_id INTEGER NOT NULL,
     tag_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, tag_id)
+    PRIMARY KEY (book_id, tag_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

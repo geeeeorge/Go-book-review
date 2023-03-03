@@ -2,7 +2,6 @@ package cognito
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 
@@ -48,7 +47,6 @@ func TestClient_SignUp(t *testing.T) {
 		read("../../test/private/cognito/1.clientid"),
 		read("../../test/private/cognito/1.userpoolid"),
 	)
-	fmt.Println(client)
 
 	for _, tc := range tests {
 		tc := tc
@@ -109,7 +107,7 @@ func TestClient_Login(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			res, err := client.Login(ctx, tc.args.id, tc.args.password)
+			_, err := client.Login(ctx, tc.args.id, tc.args.password)
 
 			if diff := cmp.Diff(tc.wantErr, err != nil); diff != "" {
 				t.Error(err)

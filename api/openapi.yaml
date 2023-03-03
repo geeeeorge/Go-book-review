@@ -242,6 +242,13 @@ components:
         format: int64
       required: true
   schemas:
+    user:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
     login:
       type: object
       properties:
@@ -324,14 +331,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              username:
-                type: string
-                description: username
-              password:
-                type: string
-                description: password
+            $ref: '#/components/schemas/user'
     book-request:
       required: true
       content:

@@ -1,11 +1,13 @@
 package repository
 
-import "gorm.io/gorm"
+import (
+	"github.com/jmoiron/sqlx"
+)
 
 type Client struct {
-	db *gorm.DB
+	db *sqlx.DB
 }
 
-func New(db *gorm.DB) Interface {
+func New(db *sqlx.DB) Interface {
 	return &Client{db: db}
 }

@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/geeeeorge/Go-book-review/gen/api"
 	"github.com/labstack/echo/v4"
+
+	"github.com/geeeeorge/Go-book-review/gen/api"
 )
 
 func (c *Client) GetBooks(ec echo.Context) error {

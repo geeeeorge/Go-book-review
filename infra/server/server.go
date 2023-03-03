@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/jmoiron/sqlx"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -19,14 +21,12 @@ import (
 	"github.com/geeeeorge/Go-book-review/src/app/repository"
 	"github.com/geeeeorge/Go-book-review/src/app/usecase"
 
-	"gorm.io/gorm"
-
 	log "github.com/sirupsen/logrus"
 )
 
 // Server represents server
 type Server struct {
-	DB          *gorm.DB
+	DB          *sqlx.DB
 	Host        string
 	Port        int
 	ServerReady chan<- interface{}
@@ -35,7 +35,7 @@ type Server struct {
 }
 
 // NewServer returns new Server object
-func NewServer(port int, host string, db *gorm.DB, serverReady chan<- interface{}) *Server {
+func NewServer(port int, host string, db *sqlx.DB, serverReady chan<- interface{}) *Server {
 	return &Server{
 		DB:          db,
 		Host:        host,

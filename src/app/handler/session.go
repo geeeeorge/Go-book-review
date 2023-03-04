@@ -14,12 +14,12 @@ func (c *Client) Signup(ec echo.Context) error {
 	if err := ec.Bind(&req); err != nil {
 		return ec.JSON(http.StatusBadRequest, nil)
 	}
-	u := &model.User{
+	u := model.User{
 		Username: *req.Username,
 		Password: *req.Password,
 	}
 
-	if err := c.usecase.SignUp(ctx, u); err != nil {
+	if err := c.usecase.SignUp(ctx, &u); err != nil {
 		return ec.JSON(http.StatusInternalServerError, map[string]string{"msg": err.Error()})
 	}
 

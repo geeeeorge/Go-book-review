@@ -49,6 +49,7 @@ func CognitoMiddleware(region, poolID, iss string, ignorePaths []string) func(ne
 			ctx := ec.Request().Context()
 			ctx = context.WithValue(ctx, cognito.ContextAuthorizationKey, jwt)
 			ec.SetRequest(ec.Request().WithContext(ctx))
+			ec.Set("username", jwt.Username)
 
 			return next(ec)
 		}

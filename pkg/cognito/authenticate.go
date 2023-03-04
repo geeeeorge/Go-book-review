@@ -61,14 +61,14 @@ func NewValid(region, poolID, iss, raw string, now time.Time) (IDToken, error) {
 	if !claims.VerifyIssuer(iss, true) {
 		return IDToken{}, fmt.Errorf("%w: unknown issuer", ErrInvalidJWT)
 	}
-	if claims["sub"] == nil || claims["iss"] == nil || claims["username"] == nil {
+	if claims["sub"] == nil || claims["iss"] == nil || claims["cognito:username"] == nil {
 		return IDToken{}, fmt.Errorf("%w: invalid claim", ErrInvalidJWT)
 	}
 
 	return IDToken{
 		Sub:      claims["sub"].(string),
 		Iss:      claims["iss"].(string),
-		Username: claims["username"].(string),
+		Username: claims["cognito:username"].(string),
 		Iat:      time.Unix(int64(claims["iat"].(float64)), 0),
 	}, nil
 }

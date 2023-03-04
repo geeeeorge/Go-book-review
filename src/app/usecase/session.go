@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func (c *Client) Signup(ctx context.Context, user model.User) error {
+func (c *Client) SignUp(ctx context.Context, user *model.User) error {
 	// cognitoでsignup
 	viper.SetEnvPrefix("AWS_COGNITO")
 	viper.AutomaticEnv()
@@ -38,4 +38,12 @@ func (c *Client) Login(ctx context.Context, user *model.User) (string, error) {
 	}
 
 	return token, nil
+}
+
+func (c *Client) GetUserIDByUsername(ctx context.Context, username *string) (int64, error) {
+	u, err := c.repository.SelectUserByUsername(ctx, username)
+	if err != nil {
+		return 0, errors.Wrap(err, "usecase GetUserIDByUsername: failed")
+	}
+	return u.ID, nil
 }

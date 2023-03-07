@@ -15,6 +15,11 @@ func (t *Tag) LoadDAO(d *dao.Tag) {
 	t.Name = d.Name
 }
 
+func (t *Tag) LoadAPI(a *api.Tag) {
+	t.ID = a.Id
+	t.Name = a.Name
+}
+
 func (t *Tag) DAO(uid int64) *dao.Tag {
 	return &dao.Tag{
 		ID:     t.ID,

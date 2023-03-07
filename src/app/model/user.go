@@ -14,9 +14,8 @@ func (u *User) LoadDAO(d *dao.User) {
 }
 
 func (u *User) DAO() *dao.User {
-	ret := &dao.User{
+	return &dao.User{
 		ID:       u.ID,
 		Username: u.Username,
 	}
-	return ret
 }

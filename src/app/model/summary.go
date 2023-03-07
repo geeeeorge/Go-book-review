@@ -15,10 +15,9 @@ func (s *Summary) LoadDAO(d *dao.Summary) {
 }
 
 func (s *Summary) DAO() *dao.Summary {
-	ret := &dao.Summary{
+	return &dao.Summary{
 		ID:      s.ID,
 		BookID:  s.BookID,
 		Content: s.Content,
 	}
-	return ret
 }

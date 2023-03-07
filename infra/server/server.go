@@ -44,7 +44,7 @@ func NewServer(port int, host string, db *sqlx.DB, serverReady chan<- interface{
 	}
 }
 
-func (s *Server) setupRoute() {
+func (s *Server) setup() {
 	e := echo.New()
 	r := repository.New(s.DB)
 	u := usecase.New(r)
@@ -52,9 +52,7 @@ func (s *Server) setupRoute() {
 
 	api.RegisterHandlers(e, h)
 	s.echo = e
-}
 
-func (s *Server) setupMiddleware() {
 	viper.SetEnvPrefix("AWS")
 	viper.AutomaticEnv()
 	s.echo.Use(
@@ -65,6 +63,7 @@ func (s *Server) setupMiddleware() {
 			AllowCredentials: true,
 		}),
 		cognitoMiddleware.CognitoMiddleware(
+			u,
 			viper.GetString("REGION"),
 			viper.GetString("COGNITO_USER_POOL_ID"),
 			viper.GetString("COGNITO_USER_POOL_ISS"),
@@ -80,8 +79,7 @@ func (s *Server) GetAddress() string {
 
 // Start starts server
 func (s *Server) Start() {
-	s.setupRoute()
-	s.setupMiddleware()
+	s.setup()
 
 	go func() {
 		if err := s.echo.Start(s.GetAddress()); err != nil && err != http.ErrServerClosed {

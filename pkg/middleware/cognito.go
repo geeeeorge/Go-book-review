@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"github.com/geeeeorge/Go-book-review/src/app/usecase"
 	"net/http"
 	"strings"
 	"time"
@@ -13,7 +14,7 @@ import (
 
 // CognitoMiddleware Cognitoを利用した認証
 // ignorePathsは認証が必要のないAPIのPathの配列
-func CognitoMiddleware(region, poolID, iss string, ignorePaths []string) func(next echo.HandlerFunc) echo.HandlerFunc {
+func CognitoMiddleware(usecase usecase.Interface, region, poolID, iss string, ignorePaths []string) echo.MiddlewareFunc {
 	pathMap := map[string]struct{}{}
 	for _, path := range ignorePaths {
 		pathMap[path] = struct{}{}
@@ -49,7 +50,11 @@ func CognitoMiddleware(region, poolID, iss string, ignorePaths []string) func(ne
 			ctx := ec.Request().Context()
 			ctx = context.WithValue(ctx, cognito.ContextAuthorizationKey, jwt)
 			ec.SetRequest(ec.Request().WithContext(ctx))
-			ec.Set("username", jwt.Username)
+			uid, err := usecase.GetUserIDByUsername(ctx, &jwt.Username)
+			if err != nil {
+				return ec.JSON(http.StatusInternalServerError, map[string]string{"msg": err.Error()})
+			}
+			ec.Set("user_id", uid)
 
 			return next(ec)
 		}

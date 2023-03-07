@@ -8,4 +8,5 @@ import (
 type Interface interface {
 	InsertUser(ctx context.Context, user *model.User) error
 	SelectUserByUsername(ctx context.Context, username *string) (*model.User, error)
+	SelectAllTagsByUserID(ctx context.Context, userID int64) ([]*model.Tag, error)
 }

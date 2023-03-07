@@ -8,7 +8,7 @@ import (
 )
 
 func (c *Client) InsertUser(ctx context.Context, rec *model.User) error {
-	_, err := c.db.NamedExec("INSERT INTO users (username) VALUES (:username);", rec.DAO())
+	_, err := c.db.NamedExecContext(ctx, "INSERT INTO users (username) VALUES (:username);", rec.DAO())
 	if err != nil {
 		return errors.Wrap(err, "InsertUser: failed to insert user")
 	}
@@ -18,7 +18,7 @@ func (c *Client) InsertUser(ctx context.Context, rec *model.User) error {
 
 func (c *Client) SelectUserByUsername(ctx context.Context, username *string) (*model.User, error) {
 	var d dao.User
-	err := c.db.Get(&d, "SELECT id, username FROM users WHERE username = ?", username)
+	err := c.db.GetContext(ctx, &d, "SELECT id, username FROM users WHERE username = ?", username)
 	if err != nil {
 		return nil, errors.Wrap(err, "repository SelectUserByUsername: failed to select user")
 	}

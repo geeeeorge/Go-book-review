@@ -12,7 +12,7 @@ func (c *Client) GetTags(ec echo.Context) error {
 	ctx := ec.Request().Context()
 	uid, _ := ec.Get("user_id").(int64)
 
-	tags, err := c.usecase.GetTagsByUserID(ctx, uid)
+	tags, err := c.usecase.GetTags(ctx, uid)
 	if err != nil {
 		return ec.JSON(http.StatusInternalServerError, map[string]string{"msg": err.Error()})
 	}

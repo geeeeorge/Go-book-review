@@ -8,9 +8,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (c *Client) SelectAllTagsByUserID(ctx context.Context, userID int64) ([]*model.Tag, error) {
+func (c *Client) SelectAllTags(ctx context.Context, userID int64) ([]*model.Tag, error) {
 	ts := make([]dao.Tag, 0)
-	err := c.db.SelectContext(ctx, &ts, "SELECT id, user_id, name FROM tags WHERE user_id= ?", userID)
+	err := c.db.SelectContext(ctx, &ts, "SELECT id, user_id, name FROM tags WHERE user_id=?", userID)
 	if err != nil {
 		return nil, errors.Wrap(err, "SelectAllTagsByUserID: failed to select tags")
 	}
@@ -36,7 +36,7 @@ func (c *Client) InsertTag(ctx context.Context, userID int64, tag *model.Tag) er
 
 func (c *Client) SelectTagByID(ctx context.Context, userID int64, id api.TagId) (*model.Tag, error) {
 	var t dao.Tag
-	err := c.db.GetContext(ctx, &t, "SELECT id, user_id, name FROM tags WHERE id= ? AND user_id=?", id, userID)
+	err := c.db.GetContext(ctx, &t, "SELECT id, user_id, name FROM tags WHERE id=? AND user_id=?", id, userID)
 	if err != nil {
 		return nil, errors.Wrap(err, "SelectTagByID: failed to select tag")
 	}
@@ -57,7 +57,7 @@ func (c *Client) UpdateTag(ctx context.Context, userID int64, tag *model.Tag) er
 }
 
 func (c *Client) DeleteTagByID(ctx context.Context, userID int64, id api.TagId) error {
-	_, err := c.db.QueryContext(ctx, "DELETE FROM tags WHERE id= ? AND user_id=?", id, userID)
+	_, err := c.db.QueryContext(ctx, "DELETE FROM tags WHERE id=? AND user_id=?", id, userID)
 	if err != nil {
 		return errors.Wrap(err, "DeleteTagByID: failed to delete tag")
 	}

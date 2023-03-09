@@ -10,9 +10,14 @@ type Interface interface {
 	SignUp(ctx context.Context, user *model.User) error
 	Login(ctx context.Context, user *model.User) (string, error)
 	GetUserIDByUsername(ctx context.Context, username *string) (int64, error)
-	GetTagsByUserID(ctx context.Context, userID int64) ([]*model.Tag, error)
+	GetTags(ctx context.Context, userID int64) ([]*model.Tag, error)
 	PostTag(ctx context.Context, userID int64, tag *model.Tag) error
 	GetTagByID(ctx context.Context, userID int64, id api.TagId) (*model.Tag, error)
 	PutTag(ctx context.Context, userID int64, tag *model.Tag) error
 	DeleteTagByID(ctx context.Context, userID int64, id api.TagId) error
+	GetSummariesByBookID(ctx context.Context, userID int64, bookID api.BookId) ([]*model.Summary, error)
+	PostSummary(ctx context.Context, userID int64, summary *model.Summary) error
+	GetSummaryByID(ctx context.Context, userID int64, id api.SummaryId) (*model.Summary, error)
+	PutSummary(ctx context.Context, userID int64, summary *model.Summary) error
+	DeleteSummaryByID(ctx context.Context, userID int64, id api.SummaryId) error
 }

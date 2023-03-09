@@ -332,10 +332,15 @@ components:
           type: integer
           format: int64
           description: uuid
+        book_id:
+          type: integer
+          format: int64
+          description: uuid
         content:
           type: string
       required:
         - id
+        - book_id
         - content
     tags:
       type: array

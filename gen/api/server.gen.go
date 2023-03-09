@@ -87,6 +87,8 @@ func (w *ServerInterfaceWrapper) GetApiHealthz(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) GetBooks(ctx echo.Context) error {
 	var err error
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetBooks(ctx)
 	return err
@@ -95,6 +97,8 @@ func (w *ServerInterfaceWrapper) GetBooks(ctx echo.Context) error {
 // PostBooks converts echo context to params.
 func (w *ServerInterfaceWrapper) PostBooks(ctx echo.Context) error {
 	var err error
+
+	ctx.Set(BearerScopes, []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PostBooks(ctx)
@@ -112,6 +116,8 @@ func (w *ServerInterfaceWrapper) DeleteBook(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.DeleteBook(ctx, bookId)
 	return err
@@ -128,6 +134,8 @@ func (w *ServerInterfaceWrapper) GetBook(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetBook(ctx, bookId)
 	return err
@@ -143,6 +151,8 @@ func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
+
+	ctx.Set(BearerScopes, []string{""})
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params PutBookParams
@@ -162,6 +172,8 @@ func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) GetSummaries(ctx echo.Context) error {
 	var err error
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetSummariesParams
 	// ------------- Required query parameter "book_id" -------------
@@ -180,6 +192,8 @@ func (w *ServerInterfaceWrapper) GetSummaries(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) PostSummaries(ctx echo.Context) error {
 	var err error
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PostSummaries(ctx)
 	return err
@@ -195,6 +209,8 @@ func (w *ServerInterfaceWrapper) DeleteSummary(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
+
+	ctx.Set(BearerScopes, []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.DeleteSummary(ctx, summaryId)
@@ -212,6 +228,8 @@ func (w *ServerInterfaceWrapper) GetSummary(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetSummary(ctx, summaryId)
 	return err
@@ -228,6 +246,8 @@ func (w *ServerInterfaceWrapper) PutSummary(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter summary-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PutSummary(ctx, summaryId)
 	return err
@@ -237,6 +257,8 @@ func (w *ServerInterfaceWrapper) PutSummary(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) GetTags(ctx echo.Context) error {
 	var err error
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetTags(ctx)
 	return err
@@ -245,6 +267,8 @@ func (w *ServerInterfaceWrapper) GetTags(ctx echo.Context) error {
 // PostTags converts echo context to params.
 func (w *ServerInterfaceWrapper) PostTags(ctx echo.Context) error {
 	var err error
+
+	ctx.Set(BearerScopes, []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PostTags(ctx)
@@ -262,6 +286,8 @@ func (w *ServerInterfaceWrapper) DeleteTag(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.DeleteTag(ctx, tagId)
 	return err
@@ -278,6 +304,8 @@ func (w *ServerInterfaceWrapper) GetTag(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
 
+	ctx.Set(BearerScopes, []string{""})
+
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetTag(ctx, tagId)
 	return err
@@ -293,6 +321,8 @@ func (w *ServerInterfaceWrapper) PutTag(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter tag-id: %s", err))
 	}
+
+	ctx.Set(BearerScopes, []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PutTag(ctx, tagId)

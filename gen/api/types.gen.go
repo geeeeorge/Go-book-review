@@ -7,6 +7,10 @@ import (
 	openapi_types "github.com/deepmap/oapi-codegen/pkg/types"
 )
 
+const (
+	BearerScopes = "Bearer.Scopes"
+)
+
 // Defines values for BookStatus.
 const (
 	Doing BookStatus = "doing"
@@ -43,6 +47,8 @@ type Summaries = []Summary
 
 // Summary defines model for summary.
 type Summary struct {
+	// BookId uuid
+	BookId  int64  `json:"book_id"`
 	Content string `json:"content"`
 
 	// Id uuid

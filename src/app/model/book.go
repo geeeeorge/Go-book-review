@@ -12,7 +12,15 @@ type Book struct {
 	Tags      []*Tag
 }
 
-func (b *Book) LoadDAO(bst []*dao.BookSummaryTag) {
+func (b *Book) LoadDAOFromBook(d *dao.Book) {
+	b.ID = d.ID
+	b.Title = d.Title
+	b.Image = d.Image
+	b.AmazonURL = d.AmazonURL
+	b.Status = d.Status
+}
+
+func (b *Book) LoadDAOFromBookSummaryTag(bst []*dao.BookSummaryTag) {
 	d := bst[0]
 	b.ID = d.ID
 	b.Title = d.Title

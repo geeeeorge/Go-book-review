@@ -21,10 +21,12 @@ const (
 
 // Book defines model for book.
 type Book struct {
-	// BookId uuid
-	BookId    int64               `json:"book_id"`
+	AmazonUrl string `json:"amazon_url"`
+
+	// Id uuid
+	Id        int64               `json:"id"`
 	Image     *openapi_types.File `json:"image,omitempty"`
-	Status    *BookStatus         `json:"status,omitempty"`
+	Status    BookStatus          `json:"status"`
 	Summaries *Summaries          `json:"summaries,omitempty"`
 	Tags      *Tags               `json:"tags,omitempty"`
 	Title     string              `json:"title"`
@@ -107,7 +109,14 @@ type AuthenticationRequest = User
 // BookRequest defines model for book-request.
 type BookRequest struct {
 	// AmazonUrl amazon_url
-	AmazonUrl *string `json:"amazon_url,omitempty"`
+	AmazonUrl *string     `json:"amazon_url,omitempty"`
+	Status    *BookStatus `json:"status,omitempty"`
+	Tags      *Tags       `json:"tags,omitempty"`
+}
+
+// PutBookRequest defines model for put-book-request.
+type PutBookRequest struct {
+	Tags *Tags `json:"tags,omitempty"`
 }
 
 // PutSummaryRequest defines model for put-summary-request.
@@ -140,17 +149,24 @@ type TagRequest struct {
 // PostBooksJSONBody defines parameters for PostBooks.
 type PostBooksJSONBody struct {
 	// AmazonUrl amazon_url
-	AmazonUrl *string `json:"amazon_url,omitempty"`
+	AmazonUrl *string     `json:"amazon_url,omitempty"`
+	Status    *BookStatus `json:"status,omitempty"`
+	Tags      *Tags       `json:"tags,omitempty"`
 }
 
-// PutBookParams defines parameters for PutBook.
-type PutBookParams struct {
+// PutBookStatusParams defines parameters for PutBookStatus.
+type PutBookStatusParams struct {
 	Status Status `form:"status" json:"status"`
+}
+
+// PutBookTagsJSONBody defines parameters for PutBookTags.
+type PutBookTagsJSONBody struct {
+	Tags *Tags `json:"tags,omitempty"`
 }
 
 // GetSummariesParams defines parameters for GetSummaries.
 type GetSummariesParams struct {
-	BookId QueryBookId `form:"book_id" json:"book_id"`
+	BookId QueryBookId `form:"book-id" json:"book-id"`
 }
 
 // PostSummariesJSONBody defines parameters for PostSummaries.
@@ -182,6 +198,9 @@ type PutTagJSONBody struct {
 
 // PostBooksJSONRequestBody defines body for PostBooks for application/json ContentType.
 type PostBooksJSONRequestBody PostBooksJSONBody
+
+// PutBookTagsJSONRequestBody defines body for PutBookTags for application/json ContentType.
+type PutBookTagsJSONRequestBody PutBookTagsJSONBody
 
 // PostSummariesJSONRequestBody defines body for PostSummaries for application/json ContentType.
 type PostSummariesJSONRequestBody PostSummariesJSONBody

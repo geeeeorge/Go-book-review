@@ -30,7 +30,10 @@ type ServerInterface interface {
 	GetBook(ctx echo.Context, bookId BookId) error
 	// statusの変更を行う
 	// (PUT /api/books/{book-id}/status)
-	PutBook(ctx echo.Context, bookId BookId, params PutBookParams) error
+	PutBookStatus(ctx echo.Context, bookId BookId, params PutBookStatusParams) error
+	// tagsの変更を行う
+	// (PUT /api/books/{book-id}/tags)
+	PutBookTags(ctx echo.Context, bookId BookId) error
 	// book_idのsummary_idのsummaryを全取得
 	// (GET /api/summaries)
 	GetSummaries(ctx echo.Context, params GetSummariesParams) error
@@ -141,8 +144,8 @@ func (w *ServerInterfaceWrapper) GetBook(ctx echo.Context) error {
 	return err
 }
 
-// PutBook converts echo context to params.
-func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
+// PutBookStatus converts echo context to params.
+func (w *ServerInterfaceWrapper) PutBookStatus(ctx echo.Context) error {
 	var err error
 	// ------------- Path parameter "book-id" -------------
 	var bookId BookId
@@ -155,7 +158,7 @@ func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
 	ctx.Set(BearerScopes, []string{""})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params PutBookParams
+	var params PutBookStatusParams
 	// ------------- Required query parameter "status" -------------
 
 	err = runtime.BindQueryParameter("form", true, true, "status", ctx.QueryParams(), &params.Status)
@@ -164,7 +167,25 @@ func (w *ServerInterfaceWrapper) PutBook(ctx echo.Context) error {
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.PutBook(ctx, bookId, params)
+	err = w.Handler.PutBookStatus(ctx, bookId, params)
+	return err
+}
+
+// PutBookTags converts echo context to params.
+func (w *ServerInterfaceWrapper) PutBookTags(ctx echo.Context) error {
+	var err error
+	// ------------- Path parameter "book-id" -------------
+	var bookId BookId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "book-id", runtime.ParamLocationPath, ctx.Param("book-id"), &bookId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
+	}
+
+	ctx.Set(BearerScopes, []string{""})
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.PutBookTags(ctx, bookId)
 	return err
 }
 
@@ -176,11 +197,11 @@ func (w *ServerInterfaceWrapper) GetSummaries(ctx echo.Context) error {
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetSummariesParams
-	// ------------- Required query parameter "book_id" -------------
+	// ------------- Required query parameter "book-id" -------------
 
-	err = runtime.BindQueryParameter("form", true, true, "book_id", ctx.QueryParams(), &params.BookId)
+	err = runtime.BindQueryParameter("form", true, true, "book-id", ctx.QueryParams(), &params.BookId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book_id: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter book-id: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
@@ -380,7 +401,8 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.POST(baseURL+"/api/books", wrapper.PostBooks)
 	router.DELETE(baseURL+"/api/books/:book-id", wrapper.DeleteBook)
 	router.GET(baseURL+"/api/books/:book-id", wrapper.GetBook)
-	router.PUT(baseURL+"/api/books/:book-id/status", wrapper.PutBook)
+	router.PUT(baseURL+"/api/books/:book-id/status", wrapper.PutBookStatus)
+	router.PUT(baseURL+"/api/books/:book-id/tags", wrapper.PutBookTags)
 	router.GET(baseURL+"/api/summaries", wrapper.GetSummaries)
 	router.POST(baseURL+"/api/summaries", wrapper.PostSummaries)
 	router.DELETE(baseURL+"/api/summaries/:summary-id", wrapper.DeleteSummary)

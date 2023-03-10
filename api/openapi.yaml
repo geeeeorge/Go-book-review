@@ -107,7 +107,22 @@ paths:
       responses:
         "204":
           description: 成功
-      operationId: putBook
+      operationId: putBookStatus
+  "/api/books/{book-id}/tags":
+    parameters:
+      - $ref: '#/components/parameters/book-id'
+    put:
+      summary: "tagsの変更を行う"
+      security:
+        - Bearer: []
+      tags:
+        - book
+      requestBody:
+        $ref: '#/components/requestBodies/put-book-request'
+      responses:
+        "204":
+          description: 成功
+      operationId: putBookTags
   "/api/summaries":
     get:
       summary: "book_idのsummary_idのsummaryを全取得"
@@ -266,7 +281,7 @@ components:
       required: true
     query-book-id:
       in: query
-      name: book_id
+      name: book-id
       schema:
         type: integer
         format: int64
@@ -294,7 +309,7 @@ components:
     book:
       type: object
       properties:
-        book_id:
+        id:
           type: integer
           format: int64
           description: uuid
@@ -303,6 +318,8 @@ components:
         image:
           type: string
           format: binary
+        amazon_url:
+          type: string
         status:
           $ref: '#/components/schemas/book-status'
         summaries:
@@ -310,8 +327,10 @@ components:
         tags:
           $ref: '#/components/schemas/tags'
       required:
-        - book_id
+        - id
         - title
+        - status
+        - amazon_url
     book-status:
       type: string
       enum:
@@ -377,6 +396,19 @@ components:
               amazon_url:
                 type: string
                 description: amazon_url
+              status:
+                $ref: '#/components/schemas/book-status'
+              tags:
+                $ref: '#/components/schemas/tags'
+    put-book-request:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              tags:
+                $ref: '#/components/schemas/tags'
     summary-request:
       required: true
       content:

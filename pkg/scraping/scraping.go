@@ -14,8 +14,8 @@ type ExtractedData struct {
 	Image []byte
 }
 
-// ScrapingAmazonURL AmazonのURLからExtractedDataをスクレイピング
-func ScrapingAmazonURL(url string) (*ExtractedData, error) {
+// AmazonURL AmazonのURLからExtractedDataをスクレイピング
+func AmazonURL(url string) (*ExtractedData, error) {
 	// Request the HTML page.
 	res, err := http.Get(url)
 	if err != nil {

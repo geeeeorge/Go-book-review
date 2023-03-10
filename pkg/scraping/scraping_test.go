@@ -37,7 +37,7 @@ func TestScrapingAmazonURL(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			res, err := ScrapingAmazonURL(tc.args.amazonUrl)
+			res, err := AmazonURL(tc.args.amazonUrl)
 			fmt.Println(res)
 
 			if diff := cmp.Diff(tc.wantErr, err != nil); diff != "" {

@@ -38,7 +38,7 @@ CREATE TABLE tags (
 CREATE TABLE tag_books (
     book_id INTEGER NOT NULL,
     tag_id INTEGER NOT NULL,
-    FOREIGN KEY (book_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
     PRIMARY KEY (book_id, tag_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

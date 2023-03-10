@@ -22,7 +22,7 @@ func (c *Client) SelectAllSummariesByBookID(ctx context.Context, userID int64, b
 		ON
 		    s.book_id = b.id
 		WHERE
-		    s.bookID=?
+		    s.book_id=?
 		  AND
 		    b.user_id=?
 	`, bookID, userID)
@@ -80,7 +80,7 @@ func (c *Client) SelectSummaryByID(ctx context.Context, userID int64, id api.Sum
 func (c *Client) UpdateSummary(ctx context.Context, summary *model.Summary) error {
 	_, err := c.db.NamedExecContext(ctx, "UPDATE summaries SET content=:content WHERE id=:id", summary.DAO())
 	if err != nil {
-		return errors.Wrap(err, "UpdateSummary: failed to delete summary")
+		return errors.Wrap(err, "UpdateSummary: failed to update summary")
 	}
 
 	return nil

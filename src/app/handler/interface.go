@@ -12,7 +12,8 @@ type Interface interface {
 	PostBooks(ec echo.Context) error
 	DeleteBook(ec echo.Context, bookId api.BookId) error
 	GetBook(ec echo.Context, bookId api.BookId) error
-	PutBook(ec echo.Context, bookId api.BookId, params api.PutBookParams) error
+	PutBookStatus(ec echo.Context, bookId api.BookId, params api.PutBookStatusParams) error
+	PutBookTags(ec echo.Context, bookId api.BookId) error
 	GetSummaries(ec echo.Context, params api.GetSummariesParams) error
 	PostSummaries(ec echo.Context) error
 	DeleteSummary(ec echo.Context, summaryId api.SummaryId) error

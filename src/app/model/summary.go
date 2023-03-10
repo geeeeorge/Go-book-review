@@ -11,10 +11,10 @@ type Summary struct {
 	Content string
 }
 
-func (s *Summary) LoadDAO(d *dao.Summary) {
-	s.ID = d.ID
-	s.BookID = d.BookID
-	s.Content = d.Content
+func (s *Summary) LoadDAO(a *dao.Summary) {
+	s.ID = a.ID
+	s.BookID = a.BookID
+	s.Content = a.Content
 }
 
 func (s *Summary) LoadAPI(d *api.Summary) {
@@ -34,6 +34,7 @@ func (s *Summary) DAO() *dao.Summary {
 func (s *Summary) API() *api.Summary {
 	return &api.Summary{
 		Id:      s.ID,
+		BookId:  s.BookID,
 		Content: s.Content,
 	}
 }

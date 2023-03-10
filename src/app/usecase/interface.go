@@ -10,6 +10,12 @@ type Interface interface {
 	SignUp(ctx context.Context, user *model.User) error
 	Login(ctx context.Context, user *model.User) (string, error)
 	GetUserIDByUsername(ctx context.Context, username *string) (int64, error)
+	GetBooks(ctx context.Context, userID int64) (*model.Books, error)
+	PostBook(ctx context.Context, userID int64, book *model.Book) error
+	GetBookByID(ctx context.Context, userID int64, id api.BookId) (*model.Book, error)
+	DeleteBookByID(ctx context.Context, userID int64, id api.BookId) error
+	PutBookStatus(ctx context.Context, userID int64, id api.BookId, status string) error
+	PutBookTags(ctx context.Context, userID int64, book *model.Book) error
 	GetTags(ctx context.Context, userID int64) ([]*model.Tag, error)
 	PostTag(ctx context.Context, userID int64, tag *model.Tag) error
 	GetTagByID(ctx context.Context, userID int64, id api.TagId) (*model.Tag, error)

@@ -32,7 +32,7 @@ func Load() Config {
 
 	viper.AutomaticEnv()
 	c := Config{
-		appPort: viper.GetInt("APP_PORT"), // 実際の環境変数名はprefixがついた`DIARY_APP_PORT`になる
+		appPort: viper.GetInt("APP_PORT"),
 		appHost: viper.GetString("APP_HOST"),
 		RDBConfig: &RDBConfig{
 			port:     viper.GetInt("DB_PORT"),

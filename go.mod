@@ -7,6 +7,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/aws/aws-sdk-go v1.44.211
 	github.com/deepmap/oapi-codegen v1.12.4
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/google/go-cmp v0.5.9
 	github.com/jmoiron/sqlx v1.3.5
@@ -15,20 +16,15 @@ require (
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.15.0
 	golang.org/x/sync v0.1.0
-	gorm.io/driver/mysql v1.4.7
-	gorm.io/gorm v1.24.5
 )
 
 require (
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect

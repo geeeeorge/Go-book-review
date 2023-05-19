@@ -14,17 +14,3 @@ services:
       - "3306:3306"
     volumes:
       - ./ddl:/docker-entrypoint-initdb.d
-  db-test:
-    image: mysql:latest
-    container_name: mysql_test
-    restart: always
-    environment:
-      MYSQL_USER: mysql
-      MYSQL_DATABASE: book_review_test
-      MYSQL_PASSWORD: passw0rd
-      MYSQL_ROOT_PASSWORD: passw0rd
-      TZ: "Asia/Tokyo"
-    ports:
-      - "3307:3306"
-    volumes:
-      - ./ddl:/docker-entrypoint-initdb.d

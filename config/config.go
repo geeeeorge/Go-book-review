@@ -38,7 +38,7 @@ func Load() Config {
 			port:     viper.GetInt("DB_PORT"),
 			host:     viper.GetString("DB_HOST"),
 			user:     viper.GetString("DB_USER"),
-			password: viper.GetString("DB_PASSWORD"),
+			password: viper.GetString("DB_PASS"),
 			database: viper.GetString("DB_NAME"),
 		},
 	}

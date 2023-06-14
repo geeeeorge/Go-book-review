@@ -1,6 +1,14 @@
 # Go-book-review
 書評APIをGo言語で開発
 
+「この本ってどんな内容だっけ？」、「あれ、気になってた本あったんだけどなんだっけな？」を解消
+
+## feature
+- AmazonのURLを入力するとタイトルと画像を自動で取ってくる
+- 本に要約を複数つけられる
+- statusやtagの設定ができる
+
+
 ## preparation
 ### prepare .env file
 ```
